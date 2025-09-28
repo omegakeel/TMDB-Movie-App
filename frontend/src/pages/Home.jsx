@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { getTrendingMovies, IMG_BASE } from "../services/api";
 
 export default function Home() {
-  const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
+  const [movies, setMovies] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     getTrendingMovies()
@@ -12,8 +12,15 @@ export default function Home() {
       .catch((err) => setError(err.message));
   }, []);
 
-  if (error) return <div>Error: {error}</div>;
-  if (!movies.length) return <div>Loading...</div>;
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+  }
+  if (!movies) return <div>Loading...</div>;
 
   return (
     <>
