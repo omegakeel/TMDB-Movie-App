@@ -6,6 +6,7 @@ export default function FavoriteButton({ movieId }) {
   useEffect(() => setFav(isFavorite(movieId)), [movieId]);
   return (
     <button
+      className="btn"
       onClick={() => setFav(toggleFavorite(movieId))}
       aria-pressed={fav}
       style={{ marginLeft: 8 }}
