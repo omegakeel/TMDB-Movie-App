@@ -13,3 +13,5 @@ export async function getMovieDetails(id) {
   }
   return response.json();
 }
+
+export const IMG_BASE = "https://image.tmdb.org/t/p/w342";

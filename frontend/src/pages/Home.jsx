@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getTrendingMovies } from "../services/api";
+import { getTrendingMovies, IMG_BASE } from "../services/api";
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -16,15 +16,36 @@ export default function Home() {
   if (!movies.length) return <div>Loading...</div>;
 
   return (
-    <div>
+    <>
       <h1>Trending Movies</h1>
-      <ul>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+          gap: 16,
+        }}
+      >
         {movies.map((movie) => (
-          <li key={movie.id}>
-            <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
-          </li>
+          <Link
+            key={movie.id}
+            to={`/movie/${movie.id}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div>
+              {movie.poster_path ? (
+                <img
+                  src={`${IMG_BASE}${movie.poster_path}`}
+                  alt={`${movie.title} poster`}
+                  width="160"
+                />
+              ) : (
+                <div style={{ width: 160, height: 240, background: "#333" }} />
+              )}
+              <div style={{ marginTop: 8, fontWeight: 600 }}>{movie.title}</div>
+            </div>
+          </Link>
         ))}
-      </ul>
-    </div>
+      </div>
+    </>
   );
 }
