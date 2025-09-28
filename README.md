@@ -51,7 +51,7 @@ cd frontend
 npm install
 npm run dev
 # Frontend should start at: http://localhost:5173
-# Vite is configured to proxy /api → http://localhost:4000, so API calls work.
+# Vite is configured to proxy /api → http://localhost:3000, so API calls work.
 
 ```
 
