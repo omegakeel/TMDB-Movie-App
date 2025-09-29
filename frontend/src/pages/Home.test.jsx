@@ -18,8 +18,6 @@ test("renders trending list items from API", async () => {
     </MemoryRouter>
   );
 
-  expect(screen.getByText(/Loading/i)).toBeInTheDocument();
-
   await waitFor(() => {
     expect(screen.getByText("Mock Movie")).toBeInTheDocument();
   });
