@@ -46,8 +46,27 @@ export async function getTrendingMovies(timeWindow = "day") {
   }
 }
 
+const DETAILS_TTL = 1000 * 60 * 60 * 24; // 24 hours
+
 export async function getMovieDetails(id) {
-  const res = await fetch(`${base}/api/movie/${id}`);
-  if (!res.ok) throw new Error("Failed to load movie details");
-  return res.json();
+  const key = `cache_movie_${id}_v1`;
+
+  // 1) try cache
+  const cached = readCache(key);
+  if (cached) return cached;
+
+  // 2) fetch network
+  try {
+    const res = await fetch(`${base}/api/movie/${id}`);
+    if (!res.ok) throw new Error("Failed to load movie details");
+    const data = await res.json();
+    writeCache(key, data, DETAILS_TTL);
+    return data;
+  } catch (e) {
+    // 3) offline fallback
+    if (!navigator.onLine) {
+      throw new Error("Offline and no cached details available");
+    }
+    throw e;
+  }
 }
